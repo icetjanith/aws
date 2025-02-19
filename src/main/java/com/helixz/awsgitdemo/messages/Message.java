@@ -1,7 +1,6 @@
 package com.helixz.awsgitdemo.messages;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -17,10 +16,9 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Entity
-@AllArgsConstructor
 @NoArgsConstructor
-@Table(catalog = "aws_git_demo_db", name = "message")
 @EntityListeners(AuditingEntityListener.class)
+@Table(catalog = "aws_git_demo_db", name = "message")
 public class Message {
 
     @Id
