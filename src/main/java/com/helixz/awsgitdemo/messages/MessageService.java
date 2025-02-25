@@ -1,5 +1,6 @@
 package com.helixz.awsgitdemo.messages;
 
+import com.helixz.awsgitdemo.messages.dto.MessageSearchResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -30,14 +31,24 @@ public class MessageService {
         return messageMapper.toDTO(messageRepository.save(message));
     }
 
-    public List<MessageDTO> getMessagesSorted(String sortBy, String sortDirection, int page, int size) {
+    public MessageSearchResponse getMessagesSorted(String sortBy, String sortDirection, int page, int size) {
         List<MessageDTO> messageDTOList = new ArrayList<>();
         Sort sort = Sort.by(Sort.Order.by(sortBy).with(Sort.Direction.fromString(sortDirection)));
         Pageable pageable = PageRequest.of(page, size, sort);
         Page<Message> all = messageRepository.findAll(pageable);
-        all.forEach(message -> {
-            messageDTOList.add(messageMapper.toDTO(message));
-        });
-        return messageDTOList;
+        all.forEach(message -> messageDTOList.add(messageMapper.toDTO(message)));
+        return MessageSearchResponse
+                .builder()
+                .contents(messageDTOList)
+                .paginationData(
+                        MessageSearchResponse.PaginationData
+                                .builder()
+                                .totalElements(all.getNumberOfElements())
+                                .totalPages(all.getTotalPages())
+                                .pageSize(all.getSize())
+                                .page(all.getNumber())
+                                .build()
+                )
+                .build();
     }
 }
