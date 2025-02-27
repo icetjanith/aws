@@ -6,4 +6,6 @@
         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.7.xsd">
 
     <include file="changelog/250220251610_create_message_table.xml" relativeToChangelogFile="true"/>
+    <include file="changelog/250220252125_create_users_table.xml" relativeToChangelogFile="true"/>
+<!--    <include file="changelog/270220251300_add_userid_column.xml" relativeToChangelogFile="true"/>-->
 </databaseChangeLog>

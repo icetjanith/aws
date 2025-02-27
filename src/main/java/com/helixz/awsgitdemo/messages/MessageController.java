@@ -28,7 +28,7 @@ public class MessageController {
     public ResponseEntity<Object> getMessages(
             @RequestParam(defaultValue = "createdDate") String sortBy,
             @RequestParam(defaultValue = "DESC") String sortDirection,
-            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "10") int size) {
         return ResponseEntity.status(HttpStatus.FOUND).body(
                 messageService.getMessagesSorted(sortBy, sortDirection, page, size));
