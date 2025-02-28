@@ -5,6 +5,7 @@ import com.helixz.awsgitdemo.users.UserDetailsEntity;
 import com.helixz.awsgitdemo.users.UsersRepository;
 import com.helixz.awsgitdemo.users.dto.UserCreateRequest;
 import com.helixz.awsgitdemo.users.dto.UserCreateResponse;
+import com.helixz.awsgitdemo.users.dto.UserLoginRequest;
 import com.helixz.awsgitdemo.users.dto.UserSearchResponse;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +13,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +29,8 @@ public class UsersService {
 
     private final UsersRepository usersRepository;
     private final MessageMapper messageMapper;
+    private final AuthenticationManager authenticationManager;
+    private final JWTService jwtService;
 
     public UserCreateResponse createResponse(UserCreateRequest userCreateRequest){
         BCryptPasswordEncoder passwordEncoder=new BCryptPasswordEncoder(12);
@@ -54,5 +60,18 @@ public class UsersService {
                                 .build()
                 )
                 .build();
+    }
+
+
+
+    public String createJWTToken(UserLoginRequest userLoginRequest){
+        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
+                userLoginRequest.getUsername(),
+                userLoginRequest.getPassword()
+        ));
+        if(authentication.isAuthenticated()){
+            return jwtService.generateToken(userLoginRequest.getUsername());
+        }
+        return "Token could not created...";
     }
 }

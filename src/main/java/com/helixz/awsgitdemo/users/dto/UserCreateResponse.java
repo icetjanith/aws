@@ -16,4 +16,5 @@ public class UserCreateResponse {
     private String password;
 
     private String username;
+
 }
