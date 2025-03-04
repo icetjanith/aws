@@ -21,9 +21,9 @@ spring:
   #Datasource properties
   datasource:
     driverClassName: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/aws_git_demo_db
-    username: root
-    password: 12345
+    url: jdbc:mysql://springbootdb.cpkcy2c2e9t5.eu-north-1.rds.amazonaws.com:3306/aws_git_demo_db
+    username: admin
+    password: 55552104
     hikari:
       maximum-pool-size: 2
 #  jpa:
